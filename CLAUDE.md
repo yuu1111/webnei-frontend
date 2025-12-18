@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## プロジェクト概要
 
-WebNEIは、Minecraft ModのNot Enough Items (NEI)をWeb上で閲覧するためのフロントエンドアプリケーション。主にGregTech: New Horizons (GTNH)のレシピデータを表示する。
+WebNEIは、Minecraft ModのNot Enough Items (NEI)をWeb上で閲覧するためのフロントエンドアプリケーション。Modpackのレシピデータを表示する。
 
 ## 開発コマンド
 
@@ -23,8 +23,8 @@ bun run check    # Biomeでlint+format
 ## 技術スタック
 
 - **ランタイム/パッケージマネージャー**: Bun
-- **UIフレームワーク**: React 18
-- **状態管理**: Zustand (グローバル状態) + TanStack Query (サーバー状態)
+- **UIフレームワーク**: React 19
+- **状態管理**: TanStack Store (グローバル状態) + TanStack Query (サーバー状態)
 - **GraphQL**: graphql-request
 - **スタイリング**: Tailwind CSS
 - **ビルド**: Vite
@@ -33,7 +33,7 @@ bun run check    # Biomeでlint+format
 ## アーキテクチャ
 
 ### 状態管理
-- [src/hooks/useAppState.ts](src/hooks/useAppState.ts) - Zustandによるグローバル状態
+- [src/hooks/useAppState.ts](src/hooks/useAppState.ts) - TanStack Storeによるグローバル状態
   - 検索クエリ、選択中のアイテム、make/use切り替え状態、ウィンドウサイズなど
 
 ### GraphQL

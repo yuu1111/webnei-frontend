@@ -1,4 +1,4 @@
-import { create } from 'zustand'
+import { Store, useStore } from '@tanstack/react-store'
 import type { SidebarItemInterface } from '~/types'
 
 interface AppState {
@@ -9,12 +9,9 @@ interface AppState {
   makeOrUse: 'make' | 'use' | ''
   exportVersion: string
   imageWidth: number
-  setSearch: (search: string) => void
-  setCurrentItem: (item: SidebarItemInterface, mode: 'make' | 'use') => void
-  setWindowSize: (width: number, height: number) => void
 }
 
-export const useAppState = create<AppState>((set) => ({
+const appStore = new Store<AppState>({
   height: typeof window !== 'undefined' ? window.innerHeight : 800,
   width: typeof window !== 'undefined' ? window.innerWidth : 1200,
   search: '',
@@ -22,8 +19,25 @@ export const useAppState = create<AppState>((set) => ({
   makeOrUse: '',
   exportVersion: '2.2.8',
   imageWidth: 38,
-  setSearch: (search) => set({ search }),
-  setCurrentItem: (item, mode) =>
-    set({ currentBasicSidebarItem: item, makeOrUse: mode }),
-  setWindowSize: (width, height) => set({ width, height }),
-}))
+})
+
+export function useAppState() {
+  const state = useStore(appStore)
+
+  return {
+    ...state,
+    setSearch: (search: string) => {
+      appStore.setState((prev) => ({ ...prev, search }))
+    },
+    setCurrentItem: (item: SidebarItemInterface, mode: 'make' | 'use') => {
+      appStore.setState((prev) => ({
+        ...prev,
+        currentBasicSidebarItem: item,
+        makeOrUse: mode,
+      }))
+    },
+    setWindowSize: (width: number, height: number) => {
+      appStore.setState((prev) => ({ ...prev, width, height }))
+    },
+  }
+}
